@@ -1,5 +1,6 @@
 package com.mobdeve.s13.oplegarcia.ishieric.safarigo
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -32,10 +33,17 @@ class GameDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
     }
 
     // Function to reset all scores to 0
-    fun resetScores(db: SQLiteDatabase) {
-        val updateQuery = "UPDATE $TABLE_SCORES SET $COLUMN_POINTS = 0"
-        db.execSQL(updateQuery)
-    }
-}
+    fun resetScores() {
+        val db = this.writableDatabase
+        try {
+            // Update all scores to 0
+            val values = ContentValues().apply {
+                put(COLUMN_POINTS, 0)
+            }
+            db.update(TABLE_SCORES, values, null, null)
+        } finally {
+            db.close()
+        }
+    }}
 
 

@@ -95,18 +95,18 @@ class SelectLevelActivity : AppCompatActivity() {
 
     // Function to reset game data
     private fun resetGameData() {
-        // Create a GameDatabaseHelper instance to interact with the SQLite database
+        // Reset SQLite database
         val dbHelper = GameDatabaseHelper(this)
-        val db = dbHelper.writableDatabase
+        dbHelper.resetScores()
+        dbHelper.close()
 
-        // Reset all scores to 0
-        dbHelper.resetScores(db)
+        // Reset SharedPreferences
+        val sharedPref = getSharedPreferences("game_data", MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.clear()  // This clears all stored preferences
+        editor.apply()
 
-        // Optionally, show a Toast message confirming the reset
         Toast.makeText(this, "Scores have been reset to 0!", Toast.LENGTH_SHORT).show()
-
-        // Close the database
-        db.close()
     }
 
 

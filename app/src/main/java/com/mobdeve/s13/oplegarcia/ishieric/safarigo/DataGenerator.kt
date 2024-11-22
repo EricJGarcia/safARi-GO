@@ -5,7 +5,7 @@ class DataGenerator {
         fun generateData(): ArrayList<Game> {
             val tempList = ArrayList<Game>()
             // Add normal game levels
-            tempList.add(Game("Animals", "LET US DISCOVER AND LEARN ABOUT ANIMALS!"))
+            tempList.add(Game("Animals", "Discover Earth's animals!"))
 
 
             return tempList

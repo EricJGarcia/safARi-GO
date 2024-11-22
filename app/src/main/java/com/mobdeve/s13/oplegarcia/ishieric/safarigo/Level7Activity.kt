@@ -20,13 +20,14 @@ import androidx.core.content.ContextCompat
 class Level7Activity : AppCompatActivity() {
 
     private lateinit var targetImageView: ImageView
+    private lateinit var exitButton: ImageView
     private lateinit var pointsTextView: TextView // Ensure this is initialized correctly
     private lateinit var dbHelper: GameDatabaseHelper
     private var targetItem = "Crocodile" // Initial target for this level
     private var points = 0
 
     // List of animals for each level, cycling through them
-    private val animals = listOf("Crocodile", "Bear", "Camel")
+    private val animals = listOf("Crocodile", "Bear", "Deer")
     private var currentIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +41,14 @@ class Level7Activity : AppCompatActivity() {
         // Initialize database and load points
         dbHelper = GameDatabaseHelper(this)
         loadPointsFromPreferences() // Load points from SharedPreferences
+
+        // Initialize exit button
+        exitButton = findViewById(R.id.exit_button)
+
+        // Set click listener for exit button
+        exitButton.setOnClickListener {
+            showExitConfirmationDialog()
+        }
 
         // Set initial points display
         updatePointsDisplay() // This will now work because pointsTextView is initialized
@@ -71,6 +80,23 @@ class Level7Activity : AppCompatActivity() {
             targetImageView.isEnabled = false // Disable image click while awaiting guess
             showGuessDialog()
         }
+    }
+
+    private fun showExitConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Exit Level")
+            .setMessage("Are you sure you want to exit this level?")
+            .setPositiveButton("Yes") { dialog, _ ->
+                // Navigate back to SelectLevelActivity
+                val intent = Intent(this, SelectLevelActivity::class.java)
+                startActivity(intent)
+                finish()
+                dialog.dismiss()
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun showGuessDialog() {
@@ -124,9 +150,9 @@ class Level7Activity : AppCompatActivity() {
         } else {
             // Show a specific hint based on the current target animal
             val hint = when (targetItem) {
-                "Crocodile" -> "Hint: I am a reptile with a powerful bite and live near water."
-                "Bear" -> "Hint: I hibernate in winter and love honey."
-                "Camel" -> "Hint: I have humps on my back to store fat for long desert journeys."
+                "Crocodile" -> "Hint: I am a reptile with a powerful bite and live near water. C _ _ C _ D _ L _"
+                "Bear" -> "Hint: I hibernate in winter and love honey. B _ _ R"
+                "Deer" -> "Hint: I am gentle, and males have antlers. D _ _ R"
                 else -> "Hint: Try again!"
             }
             Toast.makeText(this, hint, Toast.LENGTH_SHORT).show()
@@ -149,17 +175,17 @@ class Level7Activity : AppCompatActivity() {
             currentIndex = 0
             Toast.makeText(this, "Level Completed! Proceed to Level 8 Yipee!!!", Toast.LENGTH_SHORT).show()
             Handler(Looper.getMainLooper()).postDelayed({
-                val intent = Intent(this, Level7Activity::class.java)
+                val intent = Intent(this, SelectLevelActivity::class.java)
                 startActivity(intent)
                 finish()
-            }, 1500) // 1.5-second delay
+            }, 1000) // 1.5-second delay
         }
 
         targetItem = animals[currentIndex]
         targetImageView.setImageResource(when (targetItem) {
             "Crocodile" -> R.drawable.crocodile_image
             "Bear" -> R.drawable.bear_image
-            "Camel" -> R.drawable.camel_image
+            "Deer" -> R.drawable.deer_image
             else -> R.drawable.safarii
         })
 
@@ -170,6 +196,7 @@ class Level7Activity : AppCompatActivity() {
     private fun incrementPoints() {
         points++ // Increment points
         updatePointsDisplay()
+        savePointsToPreferences()
     }
 
     private fun updatePointsDisplay() {

@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 class Level5Activity : AppCompatActivity() {
 
     private lateinit var targetImageView: ImageView
+    private lateinit var exitButton: ImageView
     private lateinit var pointsTextView: TextView // Ensure this is initialized correctly
     private lateinit var dbHelper: GameDatabaseHelper
     private var targetItem = "Dolphin" // Initial target for this level
@@ -40,6 +41,14 @@ class Level5Activity : AppCompatActivity() {
         // Initialize database and load points
         dbHelper = GameDatabaseHelper(this)
         loadPointsFromPreferences() // Load points from SharedPreferences
+
+        // Initialize exit button
+        exitButton = findViewById(R.id.exit_button)
+
+        // Set click listener for exit button
+        exitButton.setOnClickListener {
+            showExitConfirmationDialog()
+        }
 
         // Set initial points display
         updatePointsDisplay() // This will now work because pointsTextView is initialized
@@ -71,6 +80,23 @@ class Level5Activity : AppCompatActivity() {
             targetImageView.isEnabled = false // Disable image click while awaiting guess
             showGuessDialog()
         }
+    }
+
+    private fun showExitConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Exit Level")
+            .setMessage("Are you sure you want to exit this level?")
+            .setPositiveButton("Yes") { dialog, _ ->
+                // Navigate back to SelectLevelActivity
+                val intent = Intent(this, SelectLevelActivity::class.java)
+                startActivity(intent)
+                finish()
+                dialog.dismiss()
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun showGuessDialog() {
@@ -124,9 +150,9 @@ class Level5Activity : AppCompatActivity() {
         } else {
             // Show a specific hint based on the current target animal
             val hint = when (targetItem) {
-                "Dolphin" -> "Hint: I am known for my playful leaps and intelligence."
-                "Lobster" -> "Hint: I have big claws and am a popular seafood."
-                "Octopus" -> "Hint: I have eight arms and can squirt ink to escape."
+                "Dolphin" -> "Hint: I am known for my playful leaps and intelligence. D _ L P _ _ N"
+                "Lobster" -> "Hint: I have big claws and am a popular seafood. L _ B _ T _ R "
+                "Octopus" -> "Hint: I have eight arms and can squirt ink to escape. O _ T _ _ _ S"
                 else -> "Hint: Try again!"
             }
             Toast.makeText(this, hint, Toast.LENGTH_SHORT).show()
@@ -149,10 +175,10 @@ class Level5Activity : AppCompatActivity() {
             currentIndex = 0
             Toast.makeText(this, "Level Completed! Proceed to Level 6 Yipee!!!", Toast.LENGTH_SHORT).show()
             Handler(Looper.getMainLooper()).postDelayed({
-                val intent = Intent(this, Level5Activity::class.java)
+                val intent = Intent(this, SelectLevelActivity::class.java)
                 startActivity(intent)
                 finish()
-            }, 1500) // 1.5-second delay
+            }, 1000) // 1.5-second delay
         }
 
         targetItem = animals[currentIndex]
@@ -170,6 +196,7 @@ class Level5Activity : AppCompatActivity() {
     private fun incrementPoints() {
         points++ // Increment points
         updatePointsDisplay()
+        savePointsToPreferences()
     }
 
     private fun updatePointsDisplay() {
