@@ -173,12 +173,14 @@ class Level4Activity : AppCompatActivity() {
     private fun setNewTarget() {
         if (currentIndex >= animals.size) {
             currentIndex = 0
-            Toast.makeText(this, "Level Completed! Proceed to Level 5 Yipee!!!", Toast.LENGTH_SHORT).show()
+            dbHelper.setLevelCompleted("Level 4")
+            Toast.makeText(this, "Level Completed!", Toast.LENGTH_SHORT).show()
             Handler(Looper.getMainLooper()).postDelayed({
                 val intent = Intent(this, SelectLevelActivity::class.java)
                 startActivity(intent)
                 finish()
-            }, 1000) // 1.5-second delay
+            }, 1000)
+            return
         }
 
         targetItem = animals[currentIndex]
