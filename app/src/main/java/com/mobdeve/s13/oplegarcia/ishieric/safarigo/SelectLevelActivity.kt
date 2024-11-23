@@ -102,6 +102,13 @@ class SelectLevelActivity : AppCompatActivity() {
     // Function to reset game data
     private fun resetGameData() {
         dbHelper.resetScores()
+        dbHelper.close()
+
+        // Clear scores in SharedPreferences
+        val sharedPref = getSharedPreferences("game_data", MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.clear()  // This clears all stored preferences
+        editor.apply()
 
         // Re-enable all level buttons
         val buttons = arrayOf(
