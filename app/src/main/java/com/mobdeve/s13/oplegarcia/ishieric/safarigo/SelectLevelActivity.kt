@@ -103,7 +103,7 @@ class SelectLevelActivity : AppCompatActivity() {
         // Reset SharedPreferences
         val sharedPref = getSharedPreferences("game_data", MODE_PRIVATE)
         val editor = sharedPref.edit()
-        editor.clear()  // This clears all stored preferences
+        editor.clear()  // Clears all stored preferences
         editor.apply()
 
         Toast.makeText(this, "Scores have been reset to 0!", Toast.LENGTH_SHORT).show()

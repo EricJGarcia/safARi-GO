@@ -1,6 +1,7 @@
 package com.mobdeve.s13.oplegarcia.ishieric.safarigo
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -83,6 +84,7 @@ class Level1Activity : AppCompatActivity() {
 
     }
 
+    // Allow exiting of level
     private fun showExitConfirmationDialog() {
         AlertDialog.Builder(this)
             .setTitle("Exit Level")
@@ -100,6 +102,7 @@ class Level1Activity : AppCompatActivity() {
             .show()
     }
 
+    // Prompt the user to guess
     private fun showGuessDialog() {
         val builder = AlertDialog.Builder(this)
         val input = EditText(this)
@@ -120,6 +123,7 @@ class Level1Activity : AppCompatActivity() {
         builder.show()
     }
 
+    // Open camera
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
@@ -137,6 +141,7 @@ class Level1Activity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
+    // Function to process the user's guesses and providing hints
     private fun processGuess(guess: String) {
         if (guess.equals(targetItem, ignoreCase = true)) {
             // Save score to the database and preferences
@@ -161,6 +166,8 @@ class Level1Activity : AppCompatActivity() {
         }
     }
 
+    // Function to save the score of the user
+    @SuppressLint("Range")
     private fun saveScore(level: String, points: Int) {
         val db = dbHelper.writableDatabase
 
@@ -217,6 +224,8 @@ class Level1Activity : AppCompatActivity() {
         currentIndex++
     }
 
+    // All funcions below work to add the points, save the current number of points,
+    // and display it properly in each level.
     private fun incrementPoints() {
         points++ // Increment points
         updatePointsDisplay()

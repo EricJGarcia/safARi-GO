@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class GameDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
+    // Define objects inside the database
     companion object {
         const val DATABASE_NAME = "game.db"
         const val DATABASE_VERSION = 1
@@ -16,6 +17,7 @@ class GameDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         const val COLUMN_POINTS = "points"
     }
 
+    // Function to create the database
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_TABLE = """
             CREATE TABLE $TABLE_SCORES (
