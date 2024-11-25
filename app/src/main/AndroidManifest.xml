@@ -39,6 +39,8 @@
         <activity android:name=".Level8Activity" />
         <activity android:name=".Level9Activity" />
         <activity android:name=".Level10Activity" />
+        <activity android:name=".SafariLogActivity" />
+
 
 
         <meta-data

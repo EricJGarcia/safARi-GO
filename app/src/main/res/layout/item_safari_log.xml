@@ -1,0 +1,49 @@
+<!-- item_safari_log.xml -->
+<!-- item_layout.xml -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/safari_log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gorditas"
+        android:text="Safari Log!"
+        android:textSize="34sp"
+        android:layout_marginTop="16dp"
+        android:gravity="center" />
+
+    <ImageView
+        android:id="@+id/animal_image_view"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/animal_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textColor="@android:color/black"
+        android:textSize="32sp" /> <!-- Adjust text size as needed -->
+
+    <TextView
+        android:id="@+id/animal_description_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:padding="16dp" />
+
+
+
+</LinearLayout>

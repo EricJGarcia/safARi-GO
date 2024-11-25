@@ -172,13 +172,16 @@ class Level10Activity : AppCompatActivity() {
 
     private fun setNewTarget() {
         if (currentIndex >= animals.size) {
-            currentIndex = 0
-            Toast.makeText(this, "Congratulations,Level Completed! Press RESET to start again!", Toast.LENGTH_SHORT).show()
+            // Player has completed the level, display the safari log.
+            Toast.makeText(this, "Congratulations, Level Completed! Viewing Safari Log...", Toast.LENGTH_SHORT).show()
+
+            // Navigate to SafariLogActivity after a short delay.
             Handler(Looper.getMainLooper()).postDelayed({
-                val intent = Intent(this, SelectLevelActivity::class.java)
+                val intent = Intent(this, SafariLogActivity::class.java)
                 startActivity(intent)
                 finish()
-            }, 1000) // 1.5-second delay
+            }, 1000) // 1-second delay
+            return // Exit the method to prevent setting a new target
         }
 
         targetItem = animals[currentIndex]
