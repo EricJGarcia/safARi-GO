@@ -173,6 +173,7 @@ class Level8Activity : AppCompatActivity() {
     private fun setNewTarget() {
         if (currentIndex >= animals.size) {
             currentIndex = 0
+            dbHelper.setLevelCompleted("Level 8")
             Toast.makeText(this, "Level Completed! Proceed to Level 9 Yipee!!!", Toast.LENGTH_SHORT).show()
             Handler(Looper.getMainLooper()).postDelayed({
                 val intent = Intent(this, SelectLevelActivity::class.java)
