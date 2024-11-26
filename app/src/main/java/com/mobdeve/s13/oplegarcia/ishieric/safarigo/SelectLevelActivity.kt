@@ -107,7 +107,7 @@ class SelectLevelActivity : AppCompatActivity() {
         // Clear scores in SharedPreferences
         val sharedPref = getSharedPreferences("game_data", MODE_PRIVATE)
         val editor = sharedPref.edit()
-        editor.clear()  // This clears all stored preferences
+        editor.clear()  // Clears all stored preferences
         editor.apply()
 
         // Re-enable all level buttons
