@@ -2,24 +2,18 @@ package com.mobdeve.s13.oplegarcia.ishieric.safarigo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import android.view.ViewGroup
+import androidx.viewpager2.widget.ViewPager2
 
 class SafariLogActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewPager: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_safari_log)
 
-        // Initialize the RecyclerView
-        recyclerView = findViewById(R.id.recycler_view)
-
-        // Set up layout manager for a vertically-centered single item per screen
-        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        recyclerView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+        // Initialize the ViewPager2
+        viewPager = findViewById(R.id.viewPager)
 
         // Sample animal data for display
         val animals = listOf(
@@ -54,8 +48,8 @@ class SafariLogActivity : AppCompatActivity() {
         )
 
 
-        // Set the adapter
-        recyclerView.adapter = SafariLogAdapter(animals)
+        // Set the adapter for ViewPager2
+        viewPager.adapter = SafariLogPagerAdapter(this, animals)
     }
 }
 

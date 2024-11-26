@@ -70,6 +70,8 @@ dependencies {
     implementation("com.google.android.material:material:1.8.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1") // RecyclerView
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime")
 
     // CameraX dependencies
     implementation("androidx.camera:camera-core:${camerax_version}")
