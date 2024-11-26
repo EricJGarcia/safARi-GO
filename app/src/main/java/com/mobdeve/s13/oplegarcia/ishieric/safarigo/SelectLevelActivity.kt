@@ -14,10 +14,13 @@ class SelectLevelActivity : AppCompatActivity() {
 
     private lateinit var theme: String // This will track which theme is selected.
     private lateinit var resetbutton: Button
+    private lateinit var dbHelper: GameDatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_level)
+
+        dbHelper = GameDatabaseHelper(this)
 
         // Button references for 10 levels
         val level1Btn: Button = findViewById(R.id.level1_btn)
@@ -38,8 +41,8 @@ class SelectLevelActivity : AppCompatActivity() {
         theme = intent.getStringExtra("SELECTED_THEME") ?: "Animals"
 
         // Update UI based on the selected theme (Only Animals theme available)
-        updateUIForSelectedTheme(level1Btn, level2Btn, level3Btn, level4Btn, level5Btn, level6Btn,
-            level7Btn, level8Btn, level9Btn, level10Btn)
+        updateUIForSelectedTheme(level1Btn, level2Btn, level3Btn, level4Btn, level5Btn,
+            level6Btn, level7Btn, level8Btn, level9Btn, level10Btn)
 
         // Handle button clicks for Level 1 to Level 10
         level1Btn.setOnClickListener { navigateToLevelActivity(Level1Activity::class.java) }
@@ -59,17 +62,20 @@ class SelectLevelActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUIForSelectedTheme(
-        level1Btn: Button, level2Btn: Button, level3Btn: Button,
-        level4Btn: Button, level5Btn: Button, level6Btn: Button,
-        level7Btn: Button, level8Btn: Button, level9Btn: Button,
-        level10Btn: Button
-    ) {
-        // If the theme is Animals, enable all 10 levels
+    private fun updateUIForSelectedTheme(vararg buttons: Button) {
         if (theme == "Animals") {
-            enableLevels(level1Btn, level2Btn, level3Btn, level4Btn, level5Btn, level6Btn,
-                level7Btn, level8Btn, level9Btn, level10Btn)
-             // Set an appropriate image for the Animals theme
+            // Check completion status for each level
+            buttons.forEachIndexed { index, button ->
+                val levelNumber = index + 1
+                val isCompleted = dbHelper.isLevelCompleted("Level $levelNumber")
+                if (isCompleted) {
+                    button.isEnabled = false
+                    button.alpha = 0.5f
+                } else {
+                    button.isEnabled = true
+                    button.alpha = 1.0f
+                }
+            }
         }
     }
 
@@ -95,18 +101,35 @@ class SelectLevelActivity : AppCompatActivity() {
 
     // Function to reset game data
     private fun resetGameData() {
-        // Reset SQLite database
-        val dbHelper = GameDatabaseHelper(this)
         dbHelper.resetScores()
         dbHelper.close()
 
-        // Reset SharedPreferences
+        // Clear scores in SharedPreferences
         val sharedPref = getSharedPreferences("game_data", MODE_PRIVATE)
         val editor = sharedPref.edit()
         editor.clear()  // This clears all stored preferences
         editor.apply()
 
-        Toast.makeText(this, "Scores have been reset to 0!", Toast.LENGTH_SHORT).show()
+        // Re-enable all level buttons
+        val buttons = arrayOf(
+            findViewById<Button>(R.id.level1_btn),
+            findViewById<Button>(R.id.level2_btn),
+            findViewById<Button>(R.id.level3_btn),
+            findViewById<Button>(R.id.level4_btn),
+            findViewById<Button>(R.id.level5_btn),
+            findViewById<Button>(R.id.level6_btn),
+            findViewById<Button>(R.id.level7_btn),
+            findViewById<Button>(R.id.level8_btn),
+            findViewById<Button>(R.id.level9_btn),
+            findViewById<Button>(R.id.level10_btn)
+        )
+
+        buttons.forEach { button ->
+            button.isEnabled = true
+            button.alpha = 1.0f
+        }
+
+        Toast.makeText(this, "Game progress has been reset!", Toast.LENGTH_SHORT).show()
     }
 
 

@@ -173,6 +173,7 @@ class Level10Activity : AppCompatActivity() {
     private fun setNewTarget() {
         if (currentIndex >= animals.size) {
             // Player has completed the level, display the safari log.
+            dbHelper.setLevelCompleted("Level 10")
             Toast.makeText(this, "Congratulations, Level Completed! Viewing Safari Log...", Toast.LENGTH_SHORT).show()
 
             // Navigate to SafariLogActivity after a short delay.
